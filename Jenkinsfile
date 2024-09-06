@@ -21,7 +21,7 @@ pipeline {
                     
                     // Launch a temporary EC2 instance to install the application
                     def launchInstanceCommand = '''
-                    aws ec2 run-instances --image-id ami-0522ab6e1ddcc7055 --instance-type t2.micro --key-name ec2_template_keypair --security-group-ids sg-0d8963d952ca46e07 --subnet-id subnet-cff1ffa7 --associate-public-ip-address --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=Jenkins-Build-Instance}]' --query 'Instances[0].InstanceId' --output text
+                    aws ec2 run-instances --image-id ami-0522ab6e1ddcc7055 --iam-instance-profile Name=EC2SSMRole --instance-type t2.micro --key-name ec2_template_keypair --security-group-ids sg-0d8963d952ca46e07 --subnet-id subnet-cff1ffa7 --associate-public-ip-address --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=Jenkins-Build-Instance}]' --query 'Instances[0].InstanceId' --output text
                     '''
                     
                     // Capture instance ID
