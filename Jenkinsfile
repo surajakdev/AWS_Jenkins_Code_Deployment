@@ -47,7 +47,7 @@ pipeline {
                     sh script: installPrerequisitesCommand
 
                     // Wait for SSM command to finish
-                    sh "aws ssm wait command-executed --command-id ${sh(script: 'aws ssm list-commands --query \'Commands[0].CommandId\' --output text', returnStdout: true).trim()}"
+                    sh "aws ssm wait command-executed --instance-id ${INSTANCE_ID} --command-id ${sh(script: 'aws ssm list-commands --query \'Commands[0].CommandId\' --output text', returnStdout: true).trim()}"
 
                 }
             }
