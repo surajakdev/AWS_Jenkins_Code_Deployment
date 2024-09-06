@@ -61,17 +61,17 @@ pipeline {
             }
         }
 
-        stage('Deploy wisecow.sh Script') {
+        stage('Deploy web_app.sh Script') {
             steps {
                 script {
-                    echo "Deploying wisecow.sh onto EC2 instance..."
+                    echo "Deploying web_app.sh onto EC2 instance..."
                     
-                    // Use SCP to copy the wisecow.sh script to the EC2 instance
+                    // Use SCP to copy the web_app.sh script to the EC2 instance
                     def publicDns = sh(script: "aws ec2 describe-instances --instance-id ${INSTANCE_ID} --query 'Reservations[0].Instances[0].PublicDnsName' --output text", returnStdout: true).trim()
-                    sh "scp -o StrictHostKeyChecking=no -i /path/to/your-key.pem wisecow.sh ubuntu@${publicDns}:/home/ubuntu/wisecow.sh"
+                    sh "scp -o StrictHostKeyChecking=no -i /path/to/your-key.pem web_app.sh ubuntu@${publicDns}:/home/ubuntu/web_app.sh"
 
                     // Run the script on the instance
-                    sh "ssh -o StrictHostKeyChecking=no -i /path/to/your-key.pem ubuntu@${publicDns} 'chmod +x /home/ubuntu/wisecow.sh && nohup /home/ubuntu/wisecow.sh &'"
+                    sh "ssh -o StrictHostKeyChecking=no -i /path/to/your-key.pem ubuntu@${publicDns} 'chmod +x /home/ubuntu/web_app.sh && nohup /home/ubuntu/web_app.sh &'"
                 }
             }
         }
