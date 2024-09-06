@@ -60,10 +60,10 @@ pipeline {
                     
                     // Use SCP to copy the web_app.sh script to the EC2 instance
                     def publicDns = sh(script: "aws ec2 describe-instances --instance-id ${INSTANCE_ID} --query 'Reservations[0].Instances[0].PublicDnsName' --output text", returnStdout: true).trim()
-                    sh "scp -o StrictHostKeyChecking=no -i /path/to/your-key.pem web_app.sh ubuntu@${publicDns}:/home/ubuntu/web_app.sh"
+                    sh "scp -o StrictHostKeyChecking=no -i /home/ubuntu/.ssh/ec2_template_keypair.pem web_app.sh ubuntu@${publicDns}:/home/ubuntu/web_app.sh"
 
                     // Run the script on the instance
-                    sh "ssh -o StrictHostKeyChecking=no -i /path/to/your-key.pem ubuntu@${publicDns} 'chmod +x /home/ubuntu/web_app.sh && nohup /home/ubuntu/web_app.sh &'"
+                    sh "ssh -o StrictHostKeyChecking=no -i /home/ubuntu/.ssh/ec2_template_keypair.pem ubuntu@${publicDns} 'chmod +x /home/ubuntu/web_app.sh && nohup /home/ubuntu/web_app.sh &'"
                 }
             }
         }
