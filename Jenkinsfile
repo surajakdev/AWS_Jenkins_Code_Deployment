@@ -17,7 +17,7 @@ pipeline {
         stage('Launch EC2 Instance') {
             steps {
                 script {
-                    withEnv(['AWS_SHARED_CREDENTIALS_FILE= ~/.aws/credentials']) {
+                    withEnv(['AWS_SHARED_CREDENTIALS_FILE=~/.aws/credentials']) {
                         echo "Launching EC2 instance..."
                         
                         // Launch a temporary EC2 instance to install the application
