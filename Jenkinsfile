@@ -22,7 +22,7 @@ pipeline {
                     // Launch a temporary EC2 instance to install the application
                     def launchInstanceCommand = '''
                     aws ec2 run-instances \
-                        --image-id ami-0522ab6e1ddcc7055 \   // Choose an appropriate AMI, like Ubuntu
+                        --image-id ami-0522ab6e1ddcc7055  // Choose an appropriate AMI, like Ubuntu
                         --instance-type t2.micro \
                         --key-name ec2_template_keypair \
                         --security-group-ids sg-0d8963d952ca46e07 \
