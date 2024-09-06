@@ -40,14 +40,11 @@ pipeline {
                     echo "Installing prerequisites on EC2 instance..."
 
                     // Use AWS Systems Manager (SSM) to install prerequisites
-                    def installPrerequisitesCommand = """
-                    aws ssm send-command --instance-ids ${INSTANCE_ID} --document-name "AWS-RunShellScript" \
-                    --parameters 'commands=["sudo apt-get update -y", "sudo apt-get install fortune-mod cowsay -y"]'
-                    """
-                    sh script: installPrerequisitesCommand
+                    def installPrerequisitesCommand = """aws ssm send-command --instance-ids ${INSTANCE_ID} --document-name "AWS-RunShellScript" --parameters 'commands=["sudo apt-get update -y", "sudo apt-get install fortune-mod cowsay -y"]' --query 'Command.CommandId' --output text"""
+                    def commandId = sh(script: installPrerequisitesCommand, returnStdout: true).trim()
 
                     // Wait for SSM command to finish
-                    sh "aws ssm wait command-executed --instance-id ${INSTANCE_ID} --command-id ${sh(script: 'aws ssm list-commands --query \'Commands[0].CommandId\' --output text', returnStdout: true).trim()}"
+                    sh "aws ssm wait command-executed --instance-id ${INSTANCE_ID} --command-id ${commandId}"
 
                 }
             }
