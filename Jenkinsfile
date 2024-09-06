@@ -10,7 +10,7 @@ pipeline {
         stage('Clone Repository') {
             steps {
                 // Clone the GitHub repository
-                git url: 'https://github.com/nyrahul/wisecow.git', branch: 'main'
+                git url: 'https://github.com/surajakdev/AWS_Jenkins_Code_Deployment.git', branch: 'main'
             }
         }
 
@@ -22,11 +22,11 @@ pipeline {
                     // Launch a temporary EC2 instance to install the application
                     def launchInstanceCommand = '''
                     aws ec2 run-instances \
-                        --image-id ami-0abcdef1234567890 \   // Choose an appropriate AMI, like Ubuntu
+                        --image-id ami-0522ab6e1ddcc7055 \   // Choose an appropriate AMI, like Ubuntu
                         --instance-type t2.micro \
-                        --key-name my-key-pair \
-                        --security-group-ids sg-0123456789abcdef0 \
-                        --subnet-id subnet-0bb1c79de3EXAMPLE \
+                        --key-name ec2_template_keypair \
+                        --security-group-ids sg-0d8963d952ca46e07 \
+                        --subnet-id subnet-cff1ffa7 \
                         --associate-public-ip-address \
                         --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=Jenkins-Build-Instance}]' \
                         --query 'Instances[0].InstanceId' --output text
